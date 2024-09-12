@@ -1,0 +1,63 @@
+:root {
+    --LIGHT_BLUE: #1A94D5;
+    --DARK_BLUE: #253661;
+    --RED: #E6166F;
+    --GREEN: #7AB92A;
+    --ORANGE: #F6A822;
+    --WHITE: #F5F5F5;
+    background-color: var(--DARK_BLUE);
+    color: white;
+    font-family: Jua, sans-serif;
+}
+
+body,html {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    font-family: Jua, sans-serif;
+    padding: 0;
+    margin: 0;
+    border: none;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* CONSTANTS */
+.logo { color: var(--GREEN); padding: 15px; }
+.red { color: var(--RED); }
+.light-blue { color: var(--LIGHT_BLUE); }
+.orange { color: var(--ORANGE); }
+.flex-row { display: flex;}
+.flex-col { display: flex; flex-direction: column;}
+.flex-center { justify-content: center; }
+.gap { gap: 30px; }
+.pad { padding: 25px; }
+.input-box {
+
+}
+
+/* Selecting a room to create or join */
+#join_class, #new_class {
+    background-color: var(--WHITE);
+    padding: 25px;
+    border-radius: 10px;
+    font-size: larger;
+    transition: all 300ms ease-out;
+}
+
+#join_class:hover, #new_class:hover, a:hover {
+    cursor: pointer;
+    color: var(--GREEN);
+    transform: scale(1.125);
+}
+
+#button_classroom_wrapper {
+    min-height: calc(100vh - 60px); /* 100% page height - height of h1 padding*/
+}
+
