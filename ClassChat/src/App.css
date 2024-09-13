@@ -46,10 +46,10 @@ a {
     min-height: calc(100vh - 60px); /* 100% page height - height of h1 padding*/
 }
 
-/* New Classroom Styling */
+/* Create New Question */
 textarea {
     border-radius: 10px;
-    height: 25vh;
+    height: 15vh;
     width: 50vw;
     margin: 25px;
     padding: 25px;
@@ -59,6 +59,48 @@ textarea {
     min-width: 150px;
 }
 
+table {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#questions_and_answers, 
+#questions_and_answers td, 
+#questions_and_answers th {
+    border: 1px solid var(--WHITE);
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 75%;
+}
+
+#questions_and_answers td {
+    padding: 15px;
+    word-wrap: break-word;
+}
+
+#questions_and_answers .deletion {
+    text-align: center;
+    border-radius: 0;
+}
+
+#questions_and_answers .deletion:hover, #modal .button:hover {
+    transform: scale(0.75);
+}
+
+#modal {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
+    background-color: var(--LIGHT_BLUE);
+}
+
+#modal h2 { color: var(--WHITE); }
+
+#close_modal, #submit_modal { width: max-content;}
 
 
 
@@ -76,3 +118,4 @@ textarea {
 .separate { justify-content: space-between;}
 .bg-g { background-color: var(--GREEN); color: var(--WHITE); }
 .bg-o { background-color: var(--ORANGE); color: var(--WHITE); }
+.bg-r { background-color: var(--RED); color: var(--WHITE); }
