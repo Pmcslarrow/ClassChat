@@ -8,6 +8,7 @@ import App from './views/App.tsx'
 import NewClassroom from './views/NewClassroom.tsx'
 import ErrorPage from "./views/ErrorPage.tsx";
 import './App.css'
+import Classroom from './views/Classroom.tsx';
 
 const router = createBrowserRouter([
     {
@@ -18,12 +19,16 @@ const router = createBrowserRouter([
     {
         path: '/new',
         element: <NewClassroom />
+    },
+    {
+        path: 'room/:roomId',
+        element: <Classroom />
     }
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+    <>
     <RouterProvider router={router}/>
     <style>@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');</style>
-  </StrictMode>,
+    </>
 )

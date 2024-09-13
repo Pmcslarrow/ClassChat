@@ -84,8 +84,9 @@ table {
     border-radius: 0;
 }
 
-#questions_and_answers .deletion:hover, #modal .button:hover {
+#questions_and_answers .deletion:hover, #modal .button:hover, .trash:hover {
     transform: scale(0.75);
+    cursor: pointer;
 }
 
 #modal {
@@ -101,6 +102,14 @@ table {
 #modal h2 { color: var(--WHITE); }
 
 #close_modal, #submit_modal { width: max-content;}
+
+#room_id {
+    font-size: 10vw;
+    border-radius: 10px;
+    padding: 25px;
+    color: black;
+    background-color: var(--WHITE);
+}
 
 
 
@@ -119,3 +128,4 @@ table {
 .bg-g { background-color: var(--GREEN); color: var(--WHITE); }
 .bg-o { background-color: var(--ORANGE); color: var(--WHITE); }
 .bg-r { background-color: var(--RED); color: var(--WHITE); }
+.max-content { width: max-content; height: max-content;}

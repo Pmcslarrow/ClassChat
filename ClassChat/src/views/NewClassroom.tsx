@@ -11,11 +11,15 @@ export default function NewClassroom() {
     const [currentQuestion, setCurrentQuestion] = useState<string>();
     const [currentAnswer, setCurrentAnswer] = useState<string>();
     const [questions, setQuestions] = useState<Entry[]>([]);
+    const [roomId, setRoomId] = useState<string>()
     const dialogRef = useRef<HTMLDialogElement>(null);
+    const isTeacher = true;
 
     useEffect(() => {
-        console.log(questions)
-    }, [questions])
+        const roomId = makeid(6);
+        setRoomId(roomId)
+        console.log(roomId)
+    }, [])
 
     function handleChangeQuestion(e: React.ChangeEvent<HTMLTextAreaElement>) {
         setCurrentQuestion(e.target.value)
@@ -34,21 +38,21 @@ export default function NewClassroom() {
 
     function handleAddQuestion() {
         if (dialogRef.current?.open) {
-            if (currentQuestion && currentAnswer) {
-                let newEntry: Entry = {
-                    question: currentQuestion,
-                    answer: currentAnswer
+            if (currentQuestion?.trim() && currentAnswer?.trim()) {
+                const newEntry: Entry = {
+                    question: currentQuestion.trim(),
+                    answer: currentAnswer.trim(),
                 };
                 setQuestions([...questions, newEntry]);
                 setCurrentAnswer("");
                 setCurrentQuestion("");
-                
             }
             dialogRef.current?.close();
         } else {
             dialogRef.current?.showModal();
         }
     }
+    
 
     const MAX_LETTERS = 100
     let tableQuestions = questions.map((entry: Entry, i: number) => {
@@ -60,6 +64,19 @@ export default function NewClassroom() {
             </tr>
         )
     })
+
+    function makeid(length: number) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+        const charactersLength = characters.length;
+        let counter = 0;
+        while (counter < length) {
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+          counter += 1;
+        }
+        return result;
+    }    
+
     return (
         <>
         <Logo />
@@ -79,12 +96,16 @@ export default function NewClassroom() {
         </dialog>
 
         <table id="questions_and_answers">
-            <tr>
-                <th>Questions</th>
-                <th>Answers</th>
-                <th>Actions</th>
-            </tr>
-            {tableQuestions}
+            <thead>
+                <tr>
+                    <th>Questions</th>
+                    <th>Answers</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {tableQuestions}
+            </tbody>
         </table>
 
         <div className='flex-col'>
@@ -93,7 +114,13 @@ export default function NewClassroom() {
                     <span className="button bg-g" onClick={handleAddQuestion}>Add Question</span>
                 </div>
                
-                <Link to='/new' className="button bg-o">Create Classroom</Link>
+                <Link 
+                    to={`/room/${roomId}`} 
+                    className="button bg-o"
+                    state={{ questions, roomId, isTeacher }}
+                >
+                    Create Classroom
+                </Link>
             </div>
         </div>
 
