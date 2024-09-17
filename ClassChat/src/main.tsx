@@ -9,6 +9,7 @@ import NewClassroom from './views/NewClassroom.tsx'
 import ErrorPage from "./views/ErrorPage.tsx";
 import './App.css'
 import Classroom from './views/Classroom.tsx';
+import JoinClassroom from './views/JoinClassroom.tsx';
 
 const router = createBrowserRouter([
     {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     {
         path: 'room/:roomId',
         element: <Classroom />
+    },
+    {
+        path: 'join',
+        element: <JoinClassroom />
     }
 ]);
 

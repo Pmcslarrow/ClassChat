@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import { io } from 'socket.io-client'
 
 interface Entry {
     question: string;
@@ -14,7 +15,7 @@ export default function NewClassroom() {
     const [roomId, setRoomId] = useState<string>()
     const dialogRef = useRef<HTMLDialogElement>(null);
     const isTeacher = true;
-
+    
     useEffect(() => {
         const roomId = makeid(6);
         setRoomId(roomId)

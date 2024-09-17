@@ -111,6 +111,14 @@ table {
     background-color: var(--WHITE);
 }
 
+#join {
+    width: 50vw;
+    height: 15vh;
+    border-radius: 10px;
+    font-size: 8vw
+}
+
+
 
 
 
@@ -129,3 +137,4 @@ table {
 .bg-o { background-color: var(--ORANGE); color: var(--WHITE); }
 .bg-r { background-color: var(--RED); color: var(--WHITE); }
 .max-content { width: max-content; height: max-content;}
+.text-center { text-align: center; }
