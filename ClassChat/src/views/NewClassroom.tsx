@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import { Link } from "react-router-dom";
+import axios  from 'axios'
 import { io } from 'socket.io-client'
 
 interface Entry {
@@ -17,9 +18,13 @@ export default function NewClassroom() {
     const isTeacher = true;
     
     useEffect(() => {
-        const roomId = makeid(6);
-        setRoomId(roomId)
-        console.log(roomId)
+        async function generateRoomId() {
+            const roomId = await axios.get('http://localhost:5001/generateId')
+            setRoomId(roomId.data)
+            console.log("Generated room ID: ", roomId)
+        }
+
+        generateRoomId()
     }, [])
 
     function handleChangeQuestion(e: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -65,18 +70,6 @@ export default function NewClassroom() {
             </tr>
         )
     })
-
-    function makeid(length: number) {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
-        const charactersLength = characters.length;
-        let counter = 0;
-        while (counter < length) {
-          result += characters.charAt(Math.floor(Math.random() * charactersLength));
-          counter += 1;
-        }
-        return result;
-    }    
 
     return (
         <>
