@@ -48,14 +48,10 @@ io.on("connection", (socket) => {
     console.log("User connected", socket.id);
 
     socket.on("newRoom", async (roomId, entries, callback) => {
-        console.log("Creating and joining room: ", roomId);
-        
         try {
-            let truthy = await classrooms.findOne({ "room_id": roomId });
-            let exists = truthy ? true : false;
-            
-            if (exists) {
-                roomId = makeid(6)
+            let classExists = await classrooms.findOne({ room_id: roomId });
+            if (classExists) {
+                return callback("Classroom does not exist. Please try another code", false);
             }
 
             classrooms.insertOne({
@@ -63,32 +59,46 @@ io.on("connection", (socket) => {
                 "students": [],
                 "entries": entries
             })
-        
-            console.log("Room created in the database:", roomId);
-        } catch (err) {
-            console.error("Error saving room to database:", err);
-        }
-
-        socket.join(roomId);
-        callback(roomId);
-    });
-    
-
-    socket.on("joinRoom", async (roomId, name, callback) => {
-        let classExists = await classrooms.findOne({ room_id: roomId });
-
-        if (!classExists) {
-            callback("Classroom does not exist. Please try another code")
-        } else {
-            classrooms.updateOne(
-                { room_id: roomId }, 
-                { $push: { students: name } }
-            );
             
             socket.join(roomId);
+            console.log("Room created in the database:", roomId);
+            return callback("Successfully created a new room", true)
+        } catch (err) {
+            return callback("An error occurred. Please try again.", false);
+        }
+    })
+
+    socket.on("joinRoom", async (roomId, name, callback) => {
+        try {
+            let classExists = await classrooms.findOne({ room_id: roomId });
+    
+            if (!classExists) {
+                return callback("Classroom does not exist. Please try another code");
+            }
+    
+            let userExists = await classrooms.findOne({
+                room_id: roomId,
+                students: { $eq: name }
+            });
+    
+            if (userExists !== null) {
+                return callback("User already exists");
+            }
+    
+            await classrooms.updateOne(
+                { room_id: roomId },
+                { $push: { students: name } }
+            );
+    
+            socket.join(roomId);
             socket.to(roomId).emit("refresh");
+    
+            callback(null, "User successfully added");
+        } catch (error) {
+            callback("An error occurred. Please try again.");
         }
     });
+    
 
     socket.on("disconnect", () => {
         console.log("User disconnected", socket.id);
@@ -125,6 +135,20 @@ app.get('/students', async (req, res) => {
         res.status(500).send("Error retrieving students");
     }
 });
+
+app.get('/generateId', async (req, res) => {
+    let roomId = makeid(6)
+    let truthy = await classrooms.findOne({ "room_id": roomId });
+    let exists = truthy ? true : false;
+    
+    while (exists) {
+        roomId = makeid(6)
+        truthy = await classrooms.findOne({ "room_id": roomId });
+        exists = truthy ? true : false;
+    }
+
+    res.send(roomId)
+})
 
 app.delete('/ALL', async (req, res) => {
     try {

@@ -15,15 +15,15 @@ export default function Classroom() {
     });
 
     useEffect(() => {
-        const handleNewRoomResponse = (roomId: string) => {
-            setUpdatedRoomId(roomId);
-        };
+        async function newRoomCallback( response: string, complete: boolean ) {
+            console.log(response, complete)
+        }
 
         const createNewClassroom = async () => {
             if (questions.length === 0) return;
             try {
                 // await axios.delete("http://localhost:5001/ALL");
-                socket.emit("newRoom", roomId, questions, handleNewRoomResponse);
+                socket.emit("newRoom", roomId, questions, newRoomCallback);
             } catch (error) {
                 console.error("Error creating new classroom:", error);
             }
