@@ -9,7 +9,6 @@ export default function Classroom() {
     const location = useLocation();
     const { questions = [], roomId, isTeacher } = location.state || {};
     const [students, setStudents] = useState<string[]>([])
-    const [updatedRoomId, setUpdatedRoomId] = useState(roomId)
     const socket = io("http://localhost:5001", {
         transports: ['websocket'],
     });
@@ -32,7 +31,7 @@ export default function Classroom() {
         const fetchStudents = async () => {
             try {
                 const response = await axios.get('http://localhost:5001/students', {
-                    params: { roomId: updatedRoomId },
+                    params: { roomId: roomId },
                 });
                 const students: string[] = response.data;
                 setStudents(students);
@@ -82,7 +81,7 @@ export default function Classroom() {
         <div className="pad flex-row flex-center">
             <div>
                 <label>Room ID:</label>
-                <div id="room_id">{updatedRoomId}</div>
+                <div id="room_id">{roomId}</div>
             </div>
         </div>
 
